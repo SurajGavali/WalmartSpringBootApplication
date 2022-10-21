@@ -31,12 +31,10 @@ public class UserController {
 
         return ResponseEntity.ok(userService.RegisterNewUser(user));
     }
-
     @DeleteMapping("/del/{id}")
     public ResponseEntity<String> deluser(@PathVariable(name = "id") int userID){
         return ResponseEntity.ok(userService.DeleteUser(userID));
     }
-
     @DeleteMapping("/deletedall")
     public ResponseEntity<String> delallusers(){
         return ResponseEntity.ok(userService.DeleteAllUser());

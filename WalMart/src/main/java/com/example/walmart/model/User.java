@@ -1,17 +1,9 @@
 package com.example.walmart.model;
 
-import com.sun.istack.NotNull;
-import lombok.Builder;
 import lombok.Data;
-
-
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
-
 @Data
 @Entity
 @Table(name = "users")
@@ -29,8 +21,5 @@ public class User extends BaseEntity{
     private String userEmailID;
     @NotBlank(message = "Password Can't Be Empty!")
     private String userPassword;
-
-//    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-//    private Set<Reservation> reservationSet;
     public User() {}
 }
