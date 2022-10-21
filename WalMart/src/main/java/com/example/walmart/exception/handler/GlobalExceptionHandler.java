@@ -1,5 +1,6 @@
 package com.example.walmart.exception.handler;
 
+import com.example.walmart.exception.OutOfSizePageSize;
 import com.example.walmart.exception.UserAlreadyExistWithThisID;
 import com.example.walmart.exception.UserDoesNotExist;
 import com.example.walmart.model.ErrorMessage;
@@ -20,5 +21,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({UserDoesNotExist.class})
     public ErrorMessage handleUserDoesNotExist(Exception e){
         return errorMessage(e.getMessage(),HttpStatus.NOT_FOUND.value());
+    }
+
+    @ExceptionHandler({OutOfSizePageSize.class})
+    public ErrorMessage handlePageSizeException(Exception e) {
+        return errorMessage(e.getMessage(),HttpStatus.BAD_REQUEST.value());
     }
 }

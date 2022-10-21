@@ -1,6 +1,7 @@
 package com.example.walmart.service;
 
 import com.example.walmart.db.userJPAdb;
+import com.example.walmart.exception.OutOfSizePageSize;
 import com.example.walmart.exception.UserAlreadyExistWithThisID;
 import com.example.walmart.exception.UserDoesNotExist;
 import com.example.walmart.model.User;
@@ -9,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,18 @@ public class UserService {
     @Autowired
     private userJPAdb userjpadb;
 
+    public List<User> getUserList(boolean sortedList,int pageNo, int pageSize){
+        if(pageSize > 10){
+
+            throw new OutOfSizePageSize("Maximum Page size you can give is 10");
+        }
+
+//        User user = new User();
+        Sort sort = Sort.by(Sort.Direction.ASC,"userName");
+        Pageable pageable = PageRequest.of(pageNo-1,pageSize,sort);
+
+        return sortedList ? userjpadb.findByOrderByUserNameDesc() : userjpadb.findAll(pageable).getContent();
+    }
     public String RegisterNewUser(User user){
 
         log.info("Registering New User");

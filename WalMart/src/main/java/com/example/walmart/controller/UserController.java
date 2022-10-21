@@ -21,6 +21,13 @@ public class UserController {
 
         return ResponseEntity.ok(userService.displayUsers());
     }
+    @GetMapping("/users/sorted")
+    public ResponseEntity<List<User>> getUserList(@RequestParam(required = false,defaultValue = "false") boolean requiredSortedList,
+                                                  @RequestParam(required = false,defaultValue = "1")int pageNo,
+                                                  @RequestParam(required = false,defaultValue = "2") int pageSize){
+
+        return ResponseEntity.ok(userService.getUserList(requiredSortedList, pageNo, pageSize));
+    }
     @GetMapping("/user/{id}")
     public ResponseEntity<User> displayUserByID(@PathVariable(name = "id") int ID){
 
