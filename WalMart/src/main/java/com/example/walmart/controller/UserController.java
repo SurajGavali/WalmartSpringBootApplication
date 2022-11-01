@@ -33,6 +33,12 @@ public class UserController {
 
         return ResponseEntity.ok(userService.getUserByID(ID));
     }
+    @GetMapping("/displayextresp")
+    public ResponseEntity<Object> displayrespfromExt(@RequestParam(required = true,defaultValue = "ghjk") String keyword,
+                                                     @RequestParam(required = true,defaultValue = "1") int page,
+                                                     @RequestParam(required = true,defaultValue = "best_match") String sortBy){
+        return ResponseEntity.ok(userService.displayResponsefromExtAPI(keyword,page,sortBy));
+    }
     @PostMapping("/adduser")
     public ResponseEntity<String> adduser(@Validated @RequestBody User user){
 

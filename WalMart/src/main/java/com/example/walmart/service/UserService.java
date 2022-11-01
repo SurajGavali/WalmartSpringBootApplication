@@ -6,6 +6,7 @@ import com.example.walmart.exception.UserAlreadyExistWithThisID;
 import com.example.walmart.exception.UserDoesNotExist;
 import com.example.walmart.model.User;
 
+import com.example.walmart.sal.UserServiceSal;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +28,13 @@ import java.util.Objects;
 public class UserService {
     @Autowired
     private userJPAdb userjpadb;
+    @Autowired
+    private UserServiceSal userServiceSal;
 
+    public Object displayResponsefromExtAPI(String keyword,int page,String sortby){
+
+        return userServiceSal.getDataFromExtAPI(keyword,page,sortby);
+    }
     public List<User> getUserList(boolean sortedList,int pageNo, int pageSize){
         if(pageSize > 10){
 
