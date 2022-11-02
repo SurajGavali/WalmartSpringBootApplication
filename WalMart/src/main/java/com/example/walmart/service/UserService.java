@@ -1,5 +1,6 @@
 package com.example.walmart.service;
 
+import com.example.walmart.clients.ProductsServiceClient;
 import com.example.walmart.db.userJPAdb;
 import com.example.walmart.exception.OutOfSizePageSize;
 import com.example.walmart.exception.UserAlreadyExistWithThisID;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,17 +25,22 @@ import java.util.Objects;
 
 @Slf4j
 @Service
-@AllArgsConstructor
 @Component
 public class UserService {
     @Autowired
     private userJPAdb userjpadb;
+
+//    private UserServiceSal userServiceSal;
     @Autowired
-    private UserServiceSal userServiceSal;
+    private ProductsServiceClient productsServiceClient;
+
+    @Value("${api.key}")
+    private String apikey;
 
     public Object displayResponsefromExtAPI(String keyword,int page,String sortby){
 
-        return userServiceSal.getDataFromExtAPI(keyword,page,sortby);
+        Object Resp = productsServiceClient.getProductsFromExtAPI(apikey,keyword,page,sortby);
+        return Resp;
     }
     public List<User> getUserList(boolean sortedList,int pageNo, int pageSize){
         if(pageSize > 10){
