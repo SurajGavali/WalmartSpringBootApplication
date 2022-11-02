@@ -34,12 +34,12 @@ public class UserService {
     @Autowired
     private ProductsServiceClient productsServiceClient;
 
-    @Value("${api.key}")
-    private String apikey;
+   /* @Value("${api.key}")
+    private String apikey;*/
 
     public Object displayResponsefromExtAPI(String keyword,int page,String sortby){
 
-        Object Resp = productsServiceClient.getProductsFromExtAPI(apikey,keyword,page,sortby);
+        Object Resp = productsServiceClient.getProductsFromExtAPI(/*apikey,*/keyword,page,sortby);
         return Resp;
     }
     public List<User> getUserList(boolean sortedList,int pageNo, int pageSize){
