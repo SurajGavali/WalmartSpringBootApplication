@@ -5,10 +5,11 @@ import com.example.walmart.db.userJPAdb;
 import com.example.walmart.exception.OutOfSizePageSize;
 import com.example.walmart.exception.UserAlreadyExistWithThisID;
 import com.example.walmart.exception.UserDoesNotExist;
+import com.example.walmart.model.ExtApiResp;
 import com.example.walmart.model.User;
 
 import com.example.walmart.sal.UserServiceSal;
-import lombok.AllArgsConstructor;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,16 +30,18 @@ public class UserService {
     @Autowired
     private userJPAdb userjpadb;
 
-//    private UserServiceSal userServiceSal;
+    @Autowired
+    private UserServiceSal userServiceSal;
     @Autowired
     private ProductsServiceClient productsServiceClient;
 
-   /* @Value("${api.key}")
-    private String apikey;*/
+    @Value("${api.key}")
+    private String apikey;
 
-    public Object displayResponsefromExtAPI(String keyword,int page,String sortby){
+    public ExtApiResp displayResponsefromExtAPI(String keyword, int page, String sortby){
 
-        Object Resp = productsServiceClient.getProductsFromExtAPI(/*apikey,*/keyword,page,sortby);
+        ExtApiResp Resp = productsServiceClient.getProductsFromExtAPI(apikey,keyword,page,sortby);
+//        return userServiceSal.getDataFromExtAPI(keyword,page,sortby);
         return Resp;
     }
     public List<User> getUserList(boolean sortedList,int pageNo, int pageSize){

@@ -1,5 +1,6 @@
 package com.example.walmart.sal;
 
+import com.example.walmart.model.ExtApiResp;
 import com.example.walmart.model.User;
 import com.example.walmart.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,12 @@ public class UserServiceSal {
     @Value("${api.endpoint}")
     private String baseURL;
 
+
     public UserServiceSal(RestTemplate restTemplate){this.restTemplate=restTemplate;}
 
-    public Object getDataFromExtAPI(String keyword, int page, String sortby){
+    public ExtApiResp getDataFromExtAPI(String keyword, int page, String sortby){
+
+//        ExtApiResp extApiResp = new ExtApiResp();
 
         try{
             String requestURL = baseURL.concat("/walmart-search-by-keyword");
@@ -36,20 +40,21 @@ public class UserServiceSal {
                     .queryParam("sortBy",sortby)
                     .toUriString();
             //String requestURL = "https://axesso-walmart-data-service.p.rapidapi.com/wlm/walmart-search-by-keyword?keyword=Lego%20Star%20Wars&page=1&sortBy=best_match";
-            ResponseEntity response;
+            ResponseEntity<ExtApiResp> response;
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add("X-RapidAPI-Key","7555cc14eamshf2df94d2f9ddc2ep1b143ejsnbf1351f5056d");
+            headers.add("X-RapidAPI-Key","21905d8883msh41912f7dd1a1a30p181f27jsnd4364afc05da");
             headers.add("X-RapidAPI-Host","axesso-walmart-data-service.p.rapidapi.com");
 
             HttpEntity entity = new HttpEntity<>(headers);
             log.info("Above exchange");
-            response =restTemplate.exchange(requestURL, HttpMethod.GET,entity,Object.class);
+            response =restTemplate.exchange(requestURL, HttpMethod.GET,entity,ExtApiResp.class);
+            //extApiResp.setItemClass(response.getBody());
             if(response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             }
             else{
-                return response.getStatusCode();
+                return null;
             }
         }
         catch (Exception e){

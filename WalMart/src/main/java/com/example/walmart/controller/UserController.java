@@ -1,5 +1,6 @@
 package com.example.walmart.controller;
 
+import com.example.walmart.model.ExtApiResp;
 import com.example.walmart.model.User;
 import com.example.walmart.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserByID(ID));
     }
     @GetMapping("/displayextresp")
-    public ResponseEntity<Object> displayrespfromExt(@RequestParam(required = true,defaultValue = "ghjk") String keyword,
-                                                     @RequestParam(required = true,defaultValue = "1") int page,
-                                                     @RequestParam(required = true,defaultValue = "best_match") String sortBy){
+    public ResponseEntity<ExtApiResp> displayrespfromExt(@RequestParam(required = true,defaultValue = "laptop") String keyword,
+                                                         @RequestParam(required = true,defaultValue = "1") int page,
+                                                         @RequestParam(required = true,defaultValue = "best_match") String sortBy){
         return ResponseEntity.ok(userService.displayResponsefromExtAPI(keyword,page,sortBy));
     }
     @PostMapping("/adduser")
